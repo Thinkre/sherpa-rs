@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tray Icons Generator</title>
+    <style>
+      body {
+        font-family: system-ui;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 900px;
+      }
+      .icon-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .icon-card h3 {
+        margin: 0 0 15px 0;
+        font-size: 14px;
+        color: #666;
+      }
+      .icon-preview {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon-wrapper {
+        text-align: center;
+      }
+      .icon-wrapper p {
+        margin: 10px 0 0 0;
+        font-size: 12px;
+        color: #999;
+      }
+      .light-bg {
+        background: #f0f0f0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .dark-bg {
+        background: #2a2a2a;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #8b5cf6;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:hover {
+        background: #7c3aed;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tray Icons for KeVoiceInput</h1>
+    <p>
+      Right-click on each icon and "Save Image As..." to save as PNG (44x44 @ 2x
+      for macOS)
+    </p>
+
+    <div class="icon-grid">
+      <!-- Idle Icons -->
+      <div class="icon-card">
+        <h3>Idle State</h3>
+        <div class="icon-preview">
+          <div class="icon-wrapper light-bg">
+            <svg
+              id="tray_idle"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgba(0,0,0,0.7)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgba(0,0,0,0.7)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgba(0,0,0,0.7)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <p>Light Mode</p>
+          </div>
+          <div class="icon-wrapper dark-bg">
+            <svg
+              id="tray_idle_dark"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgba(255,255,255,0.8)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgba(255,255,255,0.8)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgba(255,255,255,0.8)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <p>Dark Mode</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recording Icons -->
+      <div class="icon-card">
+        <h3>Recording State</h3>
+        <div class="icon-preview">
+          <div class="icon-wrapper light-bg">
+            <svg
+              id="tray_recording"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgb(220,50,50)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgb(220,50,50)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgb(220,50,50)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- Recording indicator -->
+              <circle cx="22" cy="7" r="2" fill="rgb(255,50,50)" />
+              <!-- Sound waves -->
+              <path
+                d="M 10 17 Q 8 22 10 27"
+                stroke="rgb(220,50,50)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.7"
+              />
+              <path
+                d="M 34 17 Q 36 22 34 27"
+                stroke="rgb(220,50,50)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.7"
+              />
+            </svg>
+            <p>Light Mode</p>
+          </div>
+          <div class="icon-wrapper dark-bg">
+            <svg
+              id="tray_recording_dark"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgb(255,100,100)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgb(255,100,100)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgb(255,100,100)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- Recording indicator -->
+              <circle cx="22" cy="7" r="2" fill="rgb(255,80,80)" />
+              <!-- Sound waves -->
+              <path
+                d="M 10 17 Q 8 22 10 27"
+                stroke="rgb(255,100,100)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.7"
+              />
+              <path
+                d="M 34 17 Q 36 22 34 27"
+                stroke="rgb(255,100,100)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.7"
+              />
+            </svg>
+            <p>Dark Mode</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transcribing Icons -->
+      <div class="icon-card">
+        <h3>Transcribing State</h3>
+        <div class="icon-preview">
+          <div class="icon-wrapper light-bg">
+            <svg
+              id="tray_transcribing"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgb(139,92,246)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgb(139,92,246)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgb(139,92,246)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- Sound waves -->
+              <path
+                d="M 8 17 Q 6 22 8 27"
+                stroke="rgb(139,92,246)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.6"
+              />
+              <path
+                d="M 36 17 Q 38 22 36 27"
+                stroke="rgb(139,92,246)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.6"
+              />
+              <path
+                d="M 12 19 Q 10 22 12 25"
+                stroke="rgb(139,92,246)"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.4"
+              />
+              <path
+                d="M 32 19 Q 34 22 32 25"
+                stroke="rgb(139,92,246)"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.4"
+              />
+            </svg>
+            <p>Light Mode</p>
+          </div>
+          <div class="icon-wrapper dark-bg">
+            <svg
+              id="tray_transcribing_dark"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Microphone -->
+              <rect
+                x="16"
+                y="12"
+                width="12"
+                height="18"
+                rx="6"
+                fill="rgb(167,139,250)"
+              />
+              <line
+                x1="22"
+                y1="30"
+                x2="22"
+                y2="36"
+                stroke="rgb(167,139,250)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="36"
+                x2="27"
+                y2="36"
+                stroke="rgb(167,139,250)"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- Sound waves -->
+              <path
+                d="M 8 17 Q 6 22 8 27"
+                stroke="rgb(167,139,250)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.6"
+              />
+              <path
+                d="M 36 17 Q 38 22 36 27"
+                stroke="rgb(167,139,250)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.6"
+              />
+              <path
+                d="M 12 19 Q 10 22 12 25"
+                stroke="rgb(167,139,250)"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.4"
+              />
+              <path
+                d="M 32 19 Q 34 22 32 25"
+                stroke="rgb(167,139,250)"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.4"
+              />
+            </svg>
+            <p>Dark Mode</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="downloadAllIcons()">Download All Icons as PNGs</button>
+
+    <script>
+      function svgToPng(svgElement, filename) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const img = new Image();
+
+        canvas.width = 44;
+        canvas.height = 44;
+
+        img.onload = function () {
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(function (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          });
+        };
+
+        img.src =
+          "data:image/svg+xml;base64," +
+          btoa(unescape(encodeURIComponent(svgData)));
+      }
+
+      function downloadAllIcons() {
+        const icons = [
+          "tray_idle",
+          "tray_idle_dark",
+          "tray_recording",
+          "tray_recording_dark",
+          "tray_transcribing",
+          "tray_transcribing_dark",
+        ];
+
+        icons.forEach((id, index) => {
+          setTimeout(() => {
+            const svg = document.getElementById(id);
+            svgToPng(svg, id + ".png");
+          }, index * 500);
+        });
+      }
+    </script>
+  </body>
+</html>

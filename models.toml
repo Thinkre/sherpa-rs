@@ -1,0 +1,100 @@
+# 模型列表示例，与 default_models.toml 一致。
+# 应用实际读取的是应用数据目录下的 models.toml（如 macOS: ~/Library/Application Support/com.kevoiceinput.app/models.toml）。
+# 可通过应用内「打开配置文件」编辑；若不存在会从默认配置创建。本文件可作参考或复制到上述路径使用。
+# engine_type: Whisper | Paraformer | Transducer | FireRedAsr (no Api for local)
+
+[[local_models]]
+id = "small"
+name = "Whisper Small"
+description = "Fast and fairly accurate."
+engine_type = "Whisper"
+filename = "ggml-small.bin"
+url = "https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main/ggml-small.bin"
+size_mb = 487
+is_directory = false
+accuracy_score = 0.60
+speed_score = 0.85
+
+[[local_models]]
+id = "medium"
+name = "Whisper Medium"
+description = "Good accuracy, medium speed"
+engine_type = "Whisper"
+filename = "whisper-medium-q4_1.bin"
+url = "https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main/ggml-medium.bin"
+size_mb = 492
+is_directory = false
+accuracy_score = 0.75
+speed_score = 0.60
+
+[[local_models]]
+id = "turbo"
+name = "Whisper Turbo"
+description = "Balanced accuracy and speed."
+engine_type = "Whisper"
+filename = "ggml-large-v3-turbo.bin"
+url = "https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin"
+size_mb = 1600
+is_directory = false
+accuracy_score = 0.80
+speed_score = 0.40
+
+[[local_models]]
+id = "large"
+name = "Whisper Large"
+description = "Good accuracy, but slow."
+engine_type = "Whisper"
+filename = "ggml-large-v3-q5_0.bin"
+url = "https://hf-mirror.com/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-q5_0.bin"
+size_mb = 1100
+is_directory = false
+accuracy_score = 0.85
+speed_score = 0.30
+
+[[local_models]]
+id = "zipformer-zh-en"
+name = "Zipformer 双语"
+description = "支持中文和英文。支持热词功能，识别准确度高。"
+engine_type = "Transducer"
+filename = "zipformer-zh-en"
+url = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2"
+size_mb = 320
+is_directory = true
+accuracy_score = 0.93
+speed_score = 0.70
+
+[[local_models]]
+id = "conformer-zh-stateless2"
+name = "Conformer 中文"
+description = "中文识别模型，使用 cjkchar 建模单元，对中文热词支持更好。"
+engine_type = "Transducer"
+filename = "conformer-zh-stateless2"
+url = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2"
+size_mb = 50
+is_directory = true
+accuracy_score = 0.90
+speed_score = 0.80
+
+[[local_models]]
+id = "fire-red-asr-large-zh-en"
+name = "FireRedAsr Large 中英双语"
+description = "支持中文（普通话、四川话、天津话、河南话等方言）和英文。识别准确度高。"
+engine_type = "FireRedAsr"
+filename = "sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16"
+url = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16.tar.bz2"
+size_mb = 1700
+is_directory = true
+accuracy_score = 0.95
+speed_score = 0.60
+
+[[local_models]]
+id = "ke-seaco-paraformer"
+name = "KeSeaCo Paraformer"
+description = "SeACo Paraformer 模型，支持中文与热词功能。"
+engine_type = "Paraformer"
+filename = "KeSeaCoParaformer"
+url = "https://github.com/Thinkre/KeVoiceInput/releases/download/models/KeSeaCoParaformer.tar.bz2"
+size_mb = 50
+is_directory = true
+accuracy_score = 0.90
+speed_score = 0.75

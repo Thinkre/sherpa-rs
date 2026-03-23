@@ -1,0 +1,15 @@
+{
+  "version": "0.0.2",
+  "notes": "本地测试更新。",
+  "pub_date": "2026-03-03T09:57:28Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "url": "http://localhost:8765/KeVoiceInput.app.tar.gz",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdUlMaktKQXc0WUo5NFZJZTdyM042RnJoYU13RDVJMGRoVk1MRXlJd0FhdVQzOE5OY1pKNlFxdjNiVXdtU3djVDFsSk5wZ2hjTTZkQnZCM0hkOXhscDRqY2ZGaTJoVVE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcyNTMxODQwCWZpbGU6S2VWb2ljZUlucHV0LmFwcC50YXIuZ3oKVCtCSnBrQnBQZnlyOFZsN2xGaGJRWURjckZlSExtaVVqVG9lOFBrbWdNekFiV2xydnh0TExtTlpaU2sxSHZsNGxWam5NZ2hMd01PclBOSzdNdW5TQlE9PQo="
+    },
+    "darwin-x86_64": {
+      "url": "http://localhost:8765/KeVoiceInput.app.tar.gz",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdUlMaktKQXc0WUo5NFZJZTdyM042RnJoYU13RDVJMGRoVk1MRXlJd0FhdVQzOE5OY1pKNlFxdjNiVXdtU3djVDFsSk5wZ2hjTTZkQnZCM0hkOXhscDRqY2ZGaTJoVVE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzcyNTMxODQwCWZpbGU6S2VWb2ljZUlucHV0LmFwcC50YXIuZ3oKVCtCSnBrQnBQZnlyOFZsN2xGaGJRWURjckZlSExtaVVqVG9lOFBrbWdNekFiV2xydnh0TExtTlpaU2sxSHZsNGxWam5NZ2hMd01PclBOSzdNdW5TQlE9PQo="
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<svg width="22" height="22" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#9b7df9"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="micGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="rainbowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="25%" stop-color="#A3E635"/>
+      <stop offset="50%" stop-color="#67E8F9"/>
+      <stop offset="75%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+  <path d="M256 60C147.5 60 60 137.5 60 232C60 282 85 326 125 356C125 356 110 410 80 440C80 440 160 420 190 400C210 408 232 412 256 412C364.5 412 452 334.5 452 240C452 145.5 364.5 60 256 60Z" stroke="url(#mainGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="216" y="140" width="80" height="130" rx="40" fill="url(#micGrad)"/>
+  <path d="M236 180 L236 220" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M256 170 L256 230" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M276 180 L276 220" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M180 240 C180 290 213 330 256 330 C299 330 332 290 332 240" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <path d="M256 330 L256 370" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M216 370 L296 370" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round"/>
+  <g stroke="url(#rainbowGrad)" stroke-width="12" stroke-linecap="round">
+    <path d="M90 460 L90 470"/>
+    <path d="M130 445 L130 485"/>
+    <path d="M170 455 L170 475"/>
+    <path d="M236 435 L236 495"/>
+    <path d="M256 430 L256 500"/>
+    <path d="M276 435 L276 495"/>
+    <path d="M342 455 L342 475"/>
+    <path d="M382 445 L382 485"/>
+    <path d="M422 460 L422 470"/>
+  </g>
+</svg>

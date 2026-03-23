@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeVoiceInput</title>
+    <script>
+      // #region agent log
+      // Log HTML load
+      (function() {
+        try {
+          fetch('http://127.0.0.1:7243/ingest/d66cde12-34b0-4616-ab4e-bccd529bb269',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:8',message:'HTML document loaded',data:{readyState:document.readyState,url:window.location.href},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(function(e){console.error('Debug log failed:',e);});
+        } catch(e) { console.error('Debug log error:', e); }
+      })();
+      // #endregion
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // #region agent log
+      // Log script load errors
+      window.addEventListener('error', function(e) {
+        fetch('http://127.0.0.1:7243/ingest/d66cde12-34b0-4616-ab4e-bccd529bb269',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:18',message:'Script load error',data:{message:e.message,filename:e.filename,lineno:e.lineno,colno:e.colno},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(function(){});});
+      // #endregion
+    </script>
+  </body>
+</html>

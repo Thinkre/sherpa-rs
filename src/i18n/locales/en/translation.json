@@ -1,0 +1,640 @@
+{
+  "tray": {
+    "settings": "Settings...",
+    "checkUpdates": "Check for Updates...",
+    "copyLastTranscript": "Copy Last Transcript",
+    "addHotword": "Add Hotword...",
+    "clearLlmMemory": "Clear LLM Memory",
+    "showHome": "Show Home",
+    "quit": "Quit",
+    "cancel": "Cancel",
+    "about": "About"
+  },
+  "appMenu": {
+    "about": "About KeVoiceInput",
+    "hide": "Hide KeVoiceInput",
+    "hideOthers": "Hide Others",
+    "showAll": "Show All",
+    "quit": "Quit KeVoiceInput",
+    "services": "Services",
+    "preferences": "Preferences..."
+  },
+  "sidebar": {
+    "home": "Home",
+    "dictionary": "Dictionary",
+    "models": "Models",
+    "settings": "Settings",
+    "postProcessing": "Post Process",
+    "history": "History",
+    "llmRoles": "LLM",
+    "debug": "Debug",
+    "about": "About",
+    "contact": "Contact Us"
+  },
+  "onboarding": {
+    "subtitle": "To get started, choose a transcription model",
+    "recommended": "Recommended",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "modelCard": {
+      "accuracy": "accuracy",
+      "speed": "speed"
+    },
+    "models": {
+      "small": {
+        "name": "Whisper Small",
+        "description": "Fast and fairly accurate."
+      },
+      "medium": {
+        "name": "Whisper Medium",
+        "description": "Good accuracy, medium speed"
+      },
+      "turbo": {
+        "name": "Whisper Turbo",
+        "description": "Balanced accuracy and speed."
+      },
+      "large": {
+        "name": "Whisper Large",
+        "description": "Good accuracy, but slow."
+      },
+      "zipformer-zh-en": {
+        "name": "Zipformer Bilingual",
+        "description": "Supports Chinese and English. Hotwords support, high accuracy."
+      },
+      "conformer-zh-stateless2": {
+        "name": "Conformer Chinese",
+        "description": "Supports Chinese with cjkchar modeling unit. Better hotwords support for Chinese."
+      }
+    },
+    "errors": {
+      "loadModels": "Failed to load available models",
+      "downloadModel": "Failed to download model: {{error}}"
+    },
+    "permissions": {
+      "title": "Permissions Required",
+      "description": "KeVoiceInput needs a couple of permissions to work properly.",
+      "microphone": {
+        "title": "Microphone Access",
+        "description": "Required to hear your voice for transcription."
+      },
+      "accessibility": {
+        "title": "Accessibility Access",
+        "description": "Required to type transcribed text into your applications."
+      },
+      "grant": "Grant Permission",
+      "granted": "Granted",
+      "waiting": "Waiting...",
+      "allGranted": "All set!",
+      "errors": {
+        "checkFailed": "Failed to check permissions. Please try again.",
+        "requestFailed": "Failed to request permission. Please try again."
+      }
+    }
+  },
+  "modelSelector": {
+    "welcome": "Welcome to KeVoiceInput!",
+    "downloadPrompt": "Download a model below to get started with transcription.",
+    "availableModels": "Available Models",
+    "downloadModels": "Download Models",
+    "chooseModel": "Choose a Model",
+    "active": "Active",
+    "download": "Download",
+    "downloadSize": "Download size",
+    "noModelsAvailable": "No models available",
+    "extracting": "Extracting {{modelName}}...",
+    "extractingMultiple": "Extracting {{count}} models...",
+    "extractingGeneric": "Extracting...",
+    "downloading": "Downloading {{percentage}}%",
+    "downloadingMultiple": "Downloading {{count}} models...",
+    "cancelDownload": "Cancel download",
+    "modelReady": "Model Ready",
+    "loading": "Loading {{modelName}}...",
+    "loadingGeneric": "Loading...",
+    "modelError": "Model Error",
+    "modelUnloaded": "Model Unloaded",
+    "noModelDownloadRequired": "No Model - Download Required",
+    "deleteModel": "Delete {{modelName}}"
+  },
+  "models": {
+    "title": "Transcription Models",
+    "subtitle": "Cloud-based models requiring internet connection. These models typically provide higher accuracy, but rely on network connectivity.",
+    "categories": {
+      "all": "All",
+      "modelType": {
+        "local": "Local",
+        "api": "API"
+      },
+      "online": "Online",
+      "local": "Local",
+      "api": "API",
+      "fast": "Fast",
+      "accurate": "Accurate",
+      "punctuation": "Punctuation",
+      "subtitles": "Subtitles"
+    },
+    "categoryDescriptions": {
+      "all": "Show all available models (local models and API models)",
+      "online": "Cloud-based models requiring internet connection. These models typically provide higher accuracy, but rely on network connectivity.",
+      "local": "Models running directly on your device, no internet required. Perfect for private transcription or offline usage.",
+      "api": "API-based transcription services that send audio to providers. Requires API key configuration."
+    },
+    "searchPlaceholder": "Search models...",
+    "currentlyUsing": "Currently Using",
+    "accuracy": "Accuracy",
+    "speed": "Speed",
+    "languages": "Languages",
+    "multiLanguage": "Multiple Languages",
+    "realtime": "Real-time",
+    "type": "Type",
+    "test": "Test",
+    "settings": "Settings",
+    "badges": {
+      "mostAccurate": "Most Accurate",
+      "fastest": "Fastest",
+      "recommended": "Recommended"
+    },
+    "footer": {
+      "model": "Model:",
+      "languages": "Languages:",
+      "type": "Type:",
+      "realtime": "Real-time"
+    },
+    "comingSoon": "Coming soon...",
+    "importLocalModel": {
+      "title": "Import Local Model",
+      "button": "Import from Folder",
+      "description": "Select a folder containing model files. If the folder contains model_eb.onnx, it will be recognized as a SeACo Paraformer model with hotword support."
+    },
+    "reloadConfig": "Reload model config",
+    "openConfigFolder": "Open config file",
+    "configHint": "Local model list is loaded from models.toml in the app data folder. Create or edit that file, then click \"Reload model config\" to apply. \"Open config file\" opens models.toml with the default app (creates from default if missing).",
+    "sourceDownload": "Download",
+    "sourceLocalImport": "Local import"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Get in touch with the KeVoiceInput team",
+    "github": "GitHub Issues",
+    "githubDescription": "Report bugs or request features",
+    "email": "Email Support",
+    "emailDescription": "Contact our support team"
+  },
+  "settings": {
+    "general": {
+      "title": "General",
+      "shortcut": {
+        "title": "KeVoiceInput Shortcuts",
+        "description": "Configure keyboard shortcuts to trigger speech-to-text recording",
+        "loading": "Loading shortcuts...",
+        "none": "No shortcuts configured",
+        "notFound": "Shortcut not found",
+        "pressKeys": "Press keys...",
+        "bindings": {
+          "transcribe": {
+            "name": "Transcribe",
+            "description": "Converts your speech into text."
+          },
+          "cancel": {
+            "name": "Cancel",
+            "description": "Cancels the current recording."
+          }
+        },
+        "errors": {
+          "restore": "Failed to restore original shortcut",
+          "set": "Failed to set shortcut: {{error}}",
+          "reset": "Failed to reset shortcut to original value"
+        }
+      },
+      "language": {
+        "title": "Language",
+        "description": "Select the language for speech recognition. Auto will automatically determine the language, while selecting a specific language can improve accuracy for that language.",
+        "descriptionUnsupported": "",
+        "searchPlaceholder": "Search languages...",
+        "noResults": "No languages found",
+        "auto": "Auto"
+      },
+      "pushToTalk": {
+        "label": "Push To Talk",
+        "description": "Hold to record, release to stop"
+      }
+    },
+    "sound": {
+      "title": "Sound",
+      "microphone": {
+        "title": "Microphone",
+        "description": "Select your preferred microphone device",
+        "placeholder": "Select microphone...",
+        "loading": "Loading..."
+      },
+      "audioFeedback": {
+        "label": "Audio Feedback",
+        "description": "Play sound when recording starts and stops"
+      },
+      "outputDevice": {
+        "title": "Output Device",
+        "description": "Select your preferred audio output device for feedback sounds",
+        "placeholder": "Select output device...",
+        "loading": "Loading..."
+      },
+      "volume": {
+        "title": "Volume",
+        "description": "Adjust the volume of audio feedback sounds"
+      }
+    },
+    "advanced": {
+      "title": "Advanced",
+      "startHidden": {
+        "label": "Start Hidden",
+        "description": "Launch to system tray without opening the window."
+      },
+      "autostart": {
+        "label": "Launch on Startup",
+        "description": "Automatically start KeVoiceInput when you log in to your computer."
+      },
+      "overlay": {
+        "title": "Overlay Position",
+        "description": "Display visual feedback overlay during recording and transcription. On Linux 'None' is recommended.",
+        "options": {
+          "none": "None",
+          "bottom": "Bottom",
+          "top": "Top"
+        }
+      },
+      "pasteMethod": {
+        "title": "Paste Method",
+        "description": "Choose how text is inserted. Direct: simulates typing via system input. None: skips paste, only updates history/clipboard.",
+        "options": {
+          "clipboard": "Clipboard ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Clipboard (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Clipboard (Shift+Insert)",
+          "direct": "Direct",
+          "none": "None"
+        }
+      },
+      "clipboardHandling": {
+        "title": "Clipboard Handling",
+        "description": "Don't Modify Clipboard preserves your current clipboard contents after transcription. Copy to Clipboard leaves the transcription result in your clipboard after pasting.",
+        "options": {
+          "dontModify": "Don't Modify Clipboard",
+          "copyToClipboard": "Copy to Clipboard"
+        }
+      },
+      "translateToEnglish": {
+        "label": "Translate to English",
+        "description": "Automatically translate speech from other languages to English during transcription.",
+        "descriptionUnsupported": "Translation is not supported by the {{model}} model."
+      },
+      "modelUnload": {
+        "title": "Unload Model",
+        "description": "Automatically free GPU/CPU memory when the model hasn't been used for the specified time",
+        "options": {
+          "never": "Never",
+          "immediately": "Immediately",
+          "min2": "After 2 minutes",
+          "min5": "After 5 minutes",
+          "min10": "After 10 minutes",
+          "min15": "After 15 minutes",
+          "hour1": "After 1 hour",
+          "sec5": "After 5 seconds (Debug)"
+        }
+      },
+      "customWords": {
+        "title": "Custom Words",
+        "description": "Add words that are often misheard or misspelled during transcription. The system will automatically correct similar-sounding words to match your list.",
+        "placeholder": "Add a word",
+        "add": "Add",
+        "remove": "Remove {{word}}"
+      },
+      "punctuationEnabled": {
+        "label": "Punctuation Model",
+        "description": "Automatically add punctuation to transcribed text, supporting mixed Chinese and English text. The model will be automatically downloaded and loaded when enabled.",
+        "downloading": "Downloading punctuation model...",
+        "loading": "Loading punctuation model...",
+        "error": "Error"
+      },
+      "itnEnabled": {
+        "label": "Number ITN (Inverse Text Normalization)",
+        "description": "Automatically convert Chinese numbers to Arabic digits (e.g., 十五六个 → 15~16个). Supports ranges, fractions, and dates."
+      },
+      "llm": {
+        "title": "LLM Settings",
+        "enabled": "Enable LLM Processing",
+        "enabledDescription": "When enabled, LLM roles will process transcription results. When disabled, transcription text or ITN text will be returned directly.",
+        "globalConfig": {
+          "title": "Global LLM Configuration",
+          "description": "Default LLM settings used by all roles. Each role can override these settings.",
+          "name": "Config Name",
+          "addConfig": "Add Config",
+          "provider": {
+            "title": "Provider",
+            "description": "Select an LLM provider",
+            "custom": "Custom"
+          },
+          "apiUrl": {
+            "title": "API URL",
+            "description": "Base URL for custom API",
+            "placeholder": "https://api.example.com/v1"
+          },
+          "apiKey": {
+            "title": "API Key",
+            "description": "API key for the selected provider",
+            "placeholder": "Enter API key"
+          },
+          "model": {
+            "title": "Model",
+            "description": "Model name to use",
+            "placeholder": "Enter model name"
+          },
+          "testFailed": "Test failed",
+          "testFailedCurlCopied": "Test failed, curl command copied to clipboard"
+        }
+      },
+      "llmRoles": {
+        "title": "LLM Roles",
+        "description": "Configure AI roles that process transcription results. Say the role name at the start of your speech to activate it.",
+        "addRole": "Add Role",
+        "roleName": "Role Name",
+        "rolePrompt": "Prompt Template",
+        "enableReadSelection": "Enable Read Selection",
+        "outputMethod": "Output Method",
+        "outputMethodDirect": "Direct Output",
+        "outputMethodToast": "Toast Popup",
+        "provider": "Provider",
+        "apiKey": "API Key",
+        "model": "Model",
+        "useSharedIfEmpty": "Leave empty to use global settings",
+        "useSharedProvider": "Use global provider",
+        "useSharedApiKey": "Use global API key",
+        "useSharedModel": "Use global model",
+        "noRoles": "No roles configured. Add a role to enable AI processing.",
+        "currentRole": "Current Persona",
+        "newRole": "New Persona",
+        "myRoles": "My Personas",
+        "roleDetails": "Persona Details",
+        "icon": "Icon",
+        "copyAndModify": "Copy and Modify",
+        "builtIn": "Built-in",
+        "config": "LLM Config",
+        "useDefaultConfig": "Use Default Config",
+        "cannotEditDefault": "Default roles cannot be edited",
+        "builtInPromptCannotEdit": "Built-in role prompts cannot be modified"
+      },
+      "transcriptionApi": {
+        "title": "Transcription API Configuration",
+        "description": "Configure cloud API for speech-to-text transcription as an alternative to local models. Supports Alibaba Cloud, OpenAI Whisper, and other mainstream platforms.",
+        "useApi": "Use API instead of local models",
+        "useApiDescription": "When enabled, cloud API will be used for transcription instead of local models",
+        "noConfigs": "No API configurations. Add a configuration to use cloud speech recognition services.",
+        "addConfig": "Add Configuration",
+        "configName": "Configuration Name",
+        "provider": "Provider",
+        "apiKey": "API Key",
+        "model": "Model",
+        "apiUrl": "API URL (optional)",
+        "apiUrlPlaceholder": "Leave empty to use default",
+        "language": "Language (optional)",
+        "languagePlaceholder": "e.g., zh, en, auto",
+        "test": "Test Connection",
+        "testing": "Testing...",
+        "testSuccess": "Connection successful",
+        "testFailed": "Connection failed",
+        "transcriptionResult": "Transcription Result",
+        "delete": "Delete",
+        "copy": "Duplicate",
+        "selectConfig": "Select Configuration",
+        "currentConfig": "Current Configuration",
+        "newConfig": "New Configuration",
+        "myConfigs": "My Configurations",
+        "configDetails": "Configuration Details",
+        "copyAndModify": "Copy and Modify",
+        "status": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "testing": "Testing",
+          "error": "Error",
+          "success": "Connected",
+          "untested": "Untested"
+        }
+      }
+    },
+    "postProcessing": {
+      "title": "Post Process",
+      "disabledNotice": "Post processing is currently disabled. Enable it in Debug settings to configure.",
+      "api": {
+        "title": "API (OpenAI Compatible)",
+        "provider": {
+          "title": "Provider",
+          "description": "Select an OpenAI-compatible provider."
+        },
+        "appleIntelligence": {
+          "title": "Apple Intelligence",
+          "description": "Runs fully on-device. No API key or network access is required.",
+          "requirements": "Requires an Apple Silicon Mac running macOS Tahoe (26.0) or later. Apple Intelligence must be enabled in System Settings.",
+          "unavailable": "Apple Intelligence is not available on this device. Requires an Apple Silicon Mac running macOS Tahoe (26.0) or later with Apple Intelligence enabled in System Settings."
+        },
+        "baseUrl": {
+          "title": "Base URL",
+          "description": "API base URL for the selected provider. Only the custom provider can be edited.",
+          "placeholder": "https://api.openai.com/v1"
+        },
+        "apiKey": {
+          "title": "API Key",
+          "description": "API key for the selected provider.",
+          "placeholder": "sk-..."
+        },
+        "model": {
+          "title": "Model",
+          "descriptionApple": "Provide an optional numeric token limit or keep the default on-device preset.",
+          "descriptionCustom": "Provide the model identifier expected by your custom endpoint.",
+          "descriptionDefault": "Choose a model exposed by the selected provider.",
+          "placeholderApple": "Apple Intelligence",
+          "placeholderWithOptions": "Search or select a model",
+          "placeholderNoOptions": "Type a model name",
+          "refreshModels": "Refresh models"
+        }
+      },
+      "prompts": {
+        "title": "Prompt",
+        "selectedPrompt": {
+          "title": "Selected Prompt",
+          "description": "Select a template for refining transcriptions or create a new one. Use ${output} inside the prompt text to reference the captured transcript."
+        },
+        "noPrompts": "No prompts available",
+        "selectPrompt": "Select a prompt",
+        "createNew": "Create New Prompt",
+        "promptLabel": "Prompt Label",
+        "promptLabelPlaceholder": "Enter prompt name",
+        "promptInstructions": "Prompt Instructions",
+        "promptInstructionsPlaceholder": "Write the instructions to run after transcription. Example: Improve grammar and clarity for the following text: ${output}",
+        "promptTip": "Tip: Use <code>${output}</code> to insert the transcribed text in your prompt.",
+        "updatePrompt": "Update Prompt",
+        "deletePrompt": "Delete Prompt",
+        "createPrompt": "Create Prompt",
+        "cancel": "Cancel",
+        "selectToEdit": "Select a prompt above to view and edit its details.",
+        "createFirst": "Click 'Create New Prompt' above to create your first post-processing prompt."
+      }
+    },
+    "history": {
+      "title": "History",
+      "openFolder": "Open Recordings Folder",
+      "loading": "Loading history...",
+      "empty": "No transcriptions yet. Start recording to build your history!",
+      "copyToClipboard": "Copy transcription to clipboard",
+      "save": "Save transcription",
+      "unsave": "Remove from saved",
+      "delete": "Delete entry",
+      "deleteError": "Failed to delete entry. Please try again."
+    },
+    "debug": {
+      "title": "Debug",
+      "logDirectory": {
+        "title": "Log Directory",
+        "description": "Location where log files are stored"
+      },
+      "logLevel": {
+        "title": "Log Level",
+        "description": "Set the verbosity of logging"
+      },
+      "updateChecks": {
+        "label": "Check for Updates",
+        "description": "Automatically check for new versions of KeVoiceInput"
+      },
+      "soundTheme": {
+        "label": "Sound Theme",
+        "description": "Choose a sound theme for recording start and stop feedback"
+      },
+      "wordCorrectionThreshold": {
+        "title": "Word Correction Threshold",
+        "description": "Sensitivity for custom word corrections"
+      },
+      "historyLimit": {
+        "title": "History Limit",
+        "description": "Maximum number of history entries to keep",
+        "entries": "entries"
+      },
+      "recordingRetention": {
+        "title": "Auto-Delete Recordings",
+        "description": "Automatically delete old recordings to save space",
+        "never": "Never",
+        "preserveLimit": "Keep all records (count limit removed)",
+        "days3": "After 3 days",
+        "weeks2": "After 2 weeks",
+        "months3": "After 3 months",
+        "placeholder": "Select retention period..."
+      },
+      "alwaysOnMicrophone": {
+        "label": "Always-On Microphone",
+        "description": "Keep microphone active for faster response"
+      },
+      "clamshellMicrophone": {
+        "title": "Clamshell Microphone",
+        "description": "Microphone to use when laptop lid is closed"
+      },
+      "postProcessingToggle": {
+        "label": "Post Processing",
+        "description": "Enable AI-powered text refinement after transcription"
+      },
+      "muteWhileRecording": {
+        "label": "Mute While Recording",
+        "description": "Mute system audio during recording"
+      },
+      "appendTrailingSpace": {
+        "label": "Append Trailing Space",
+        "description": "Add a space after pasted transcription"
+      },
+      "paths": {
+        "appData": "App Data:",
+        "models": "Models:",
+        "settings": "Settings:"
+      }
+    },
+    "about": {
+      "title": "About",
+      "version": {
+        "title": "Version",
+        "description": "Current version of KeVoiceInput"
+      },
+      "appDataDirectory": {
+        "title": "App Data Directory",
+        "description": "Location where KeVoiceInput stores its data"
+      },
+      "sourceCode": {
+        "title": "Source Code",
+        "description": "View source code and contribute",
+        "button": "View on GitHub"
+      },
+      "supportDevelopment": {
+        "title": "Support Development",
+        "description": "Help us continue building KeVoiceInput",
+        "button": "Donate"
+      },
+      "acknowledgments": {
+        "title": "Acknowledgments",
+        "whisper": {
+          "title": "Whisper.cpp",
+          "description": "High-performance inference of OpenAI's Whisper automatic speech recognition model",
+          "details": "KeVoiceInput uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
+        }
+      }
+    }
+  },
+  "footer": {
+    "downloadingModel": "Downloading {{model}}...",
+    "checkingUpdates": "Checking for updates...",
+    "updateAvailable": "Update available: {{version}}",
+    "updateAvailableShort": "Update available",
+    "upToDate": "Up to date",
+    "downloadUpdate": "Download Update",
+    "restart": "Restart",
+    "updateCheckingDisabled": "Update Checking Disabled",
+    "downloading": "Downloading... {{progress}}%",
+    "installing": "Installing...",
+    "preparing": "Preparing...",
+    "checkForUpdates": "Check for updates",
+    "itnEnabled": "ITN",
+    "noReleaseNotes": "No release notes",
+    "updateInstalledRestartManually": "Update installed. Please quit and reopen the app."
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "add": "Add",
+    "remove": "Remove",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "close": "Close",
+    "open": "Open",
+    "default": "Default",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "on": "On",
+    "off": "Off",
+    "yes": "Yes",
+    "no": "No",
+    "noOptionsFound": "No options found",
+    "save": "Save",
+    "edit": "Edit",
+    "cancel": "Cancel"
+  },
+  "accessibility": {
+    "permissionsRequired": "Accessibility Permissions Required",
+    "permissionsDescription": "KeVoiceInput needs accessibility permissions to type transcribed text.",
+    "openSettings": "Open System Settings",
+    "dismiss": "Dismiss"
+  },
+  "errors": {
+    "loadDirectory": "Error loading directory: {{error}}"
+  },
+  "appLanguage": {
+    "title": "Application Language",
+    "description": "Change the language of the KeVoiceInput interface"
+  },
+  "overlay": {
+    "transcribing": "Transcribing..."
+  }
+}

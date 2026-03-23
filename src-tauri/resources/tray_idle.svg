@@ -1,0 +1,21 @@
+<svg width="22" height="22" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#3a3a3a" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="micGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+  <path d="M256 60C147.5 60 60 137.5 60 232C60 282 85 326 125 356C125 356 110 410 80 440C80 440 160 420 190 400C210 408 232 412 256 412C364.5 412 452 334.5 452 240C452 145.5 364.5 60 256 60Z" stroke="url(#mainGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="216" y="140" width="80" height="130" rx="40" fill="url(#micGrad)"/>
+  <path d="M236 180 L236 220" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <path d="M256 170 L256 230" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <path d="M276 180 L276 220" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <path d="M180 240 C180 290 213 330 256 330 C299 330 332 290 332 240" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <path d="M256 330 L256 370" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M216 370 L296 370" stroke="url(#micGrad)" stroke-width="16" stroke-linecap="round"/>
+</svg>
