@@ -44,11 +44,8 @@ impl WhisperRecognizer {
         let debug = config.debug.into();
         let provider = config.provider.unwrap_or(get_default_provider());
 
-        // Onnx
         let provider_ptr = cstring_from_str(&provider);
         let num_threads = config.num_threads.unwrap_or(2);
-
-        // Whisper
         let bpe_vocab_ptr = cstring_from_str(&config.bpe_vocab.unwrap_or("".into()));
         let tail_paddings = config.tail_paddings.unwrap_or(0);
         let decoder_ptr = cstring_from_str(&config.decoder);
@@ -57,64 +54,29 @@ impl WhisperRecognizer {
         let task_ptr = cstring_from_str("transcribe");
         let tokens_ptr = cstring_from_str(&config.tokens);
         let decoding_method_ptr = cstring_from_str("greedy_search");
+        let empty = cstring_from_str("");
 
-        let whisper_config = sherpa_rs_sys::SherpaOnnxOfflineWhisperModelConfig {
+        let mut model_config = crate::safe_default_offline_model_config(empty.as_ptr());
+        model_config.whisper = sherpa_rs_sys::SherpaOnnxOfflineWhisperModelConfig {
             decoder: decoder_ptr.as_ptr(),
             encoder: encoder_ptr.as_ptr(),
             language: language_ptr.as_ptr(),
             task: task_ptr.as_ptr(),
             tail_paddings,
         };
-        let model_config = unsafe {
-            sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
-                whisper: whisper_config,
-                debug,
-                num_threads,
-                provider: provider_ptr.as_ptr(),
-                bpe_vocab: bpe_vocab_ptr.as_ptr(),
-                tokens: tokens_ptr.as_ptr(),
+        model_config.debug = debug;
+        model_config.num_threads = num_threads;
+        model_config.provider = provider_ptr.as_ptr();
+        model_config.bpe_vocab = bpe_vocab_ptr.as_ptr();
+        model_config.tokens = tokens_ptr.as_ptr();
 
-                // nulls
-                model_type: std::ptr::null(),
-                modeling_unit: mem::zeroed::<_>(),
-                nemo_ctc: mem::zeroed::<_>(),
-                paraformer: mem::zeroed::<_>(),
-                tdnn: mem::zeroed::<_>(),
-                telespeech_ctc: mem::zeroed::<_>(),
-                transducer: mem::zeroed::<_>(),
-                fire_red_asr: mem::zeroed::<_>(),
-                sense_voice: mem::zeroed::<_>(),
-                moonshine: mem::zeroed::<_>(),
-                dolphin: mem::zeroed::<_>(),
-                zipformer_ctc: mem::zeroed::<_>(),
-                canary: mem::zeroed::<_>(),
-                funasr_nano: mem::zeroed::<_>(),
-                medasr: mem::zeroed::<_>(),
-                omnilingual: mem::zeroed::<_>(),
-                wenet_ctc: mem::zeroed::<_>(),
-            }
-        };
+        let mut recognizer_config =
+            crate::safe_default_offline_recognizer_config(model_config, empty.as_ptr());
+        recognizer_config.decoding_method = decoding_method_ptr.as_ptr();
+        recognizer_config.feat_config.feature_dim = 512;
 
-        let config = unsafe {
-            sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
-                decoding_method: decoding_method_ptr.as_ptr(), // greedy_search, modified_beam_search
-                feat_config: sherpa_rs_sys::SherpaOnnxFeatureConfig {
-                    sample_rate: 16000,
-                    feature_dim: 512,
-                },
-                model_config,
-
-                hotwords_file: mem::zeroed::<_>(),
-                hotwords_score: mem::zeroed::<_>(),
-                lm_config: mem::zeroed::<_>(),
-                max_active_paths: mem::zeroed::<_>(),
-                rule_fars: mem::zeroed::<_>(),
-                rule_fsts: mem::zeroed::<_>(),
-                blank_penalty: mem::zeroed::<_>(),
-                hr: mem::zeroed::<_>(),
-            }
-        };
-        let recognizer = unsafe { sherpa_rs_sys::SherpaOnnxCreateOfflineRecognizer(&config) };
+        let recognizer =
+            unsafe { sherpa_rs_sys::SherpaOnnxCreateOfflineRecognizer(&recognizer_config) };
 
         if recognizer.is_null() {
             bail!("Failed to create recognizer");

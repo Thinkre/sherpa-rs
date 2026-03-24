@@ -1,0 +1,2 @@
+// 备份修改前的文件
+$(cat /Users/thinkre/Desktop/KeVoiceInput/vendor/sherpa-rs/crates/sherpa-rs/src/lib.rs)

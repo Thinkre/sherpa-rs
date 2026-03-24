@@ -66,57 +66,31 @@ impl TransducerRecognizer {
             let hotwords_file = cstring_from_str(&config.hotwords_file);
             let tokens = cstring_from_str(&config.tokens);
             let decoding_method = cstring_from_str(&config.decoding_method);
+            let empty = cstring_from_str("");
 
-            let offline_model_config = sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
-                transducer: sherpa_rs_sys::SherpaOnnxOfflineTransducerModelConfig {
+            let mut offline_model_config = crate::safe_default_offline_model_config(empty.as_ptr());
+            offline_model_config.transducer =
+                sherpa_rs_sys::SherpaOnnxOfflineTransducerModelConfig {
                     encoder: encoder.as_ptr(),
                     decoder: decoder.as_ptr(),
                     joiner: joiner.as_ptr(),
-                },
-                tokens: tokens.as_ptr(),
-                num_threads: config.num_threads,
-                debug,
-                provider: provider_ptr.as_ptr(),
-                model_type: model_type.as_ptr(),
-                modeling_unit: modeling_unit.as_ptr(),
-                bpe_vocab: bpe_vocab.as_ptr(),
+                };
+            offline_model_config.tokens = tokens.as_ptr();
+            offline_model_config.num_threads = config.num_threads;
+            offline_model_config.debug = debug;
+            offline_model_config.provider = provider_ptr.as_ptr();
+            offline_model_config.model_type = model_type.as_ptr();
+            offline_model_config.modeling_unit = modeling_unit.as_ptr();
+            offline_model_config.bpe_vocab = bpe_vocab.as_ptr();
 
-                // NULLs
-                telespeech_ctc: mem::zeroed::<_>(),
-                paraformer: mem::zeroed::<_>(),
-                tdnn: mem::zeroed::<_>(),
-                nemo_ctc: mem::zeroed::<_>(),
-                whisper: mem::zeroed::<_>(),
-                sense_voice: mem::zeroed::<_>(),
-                moonshine: mem::zeroed::<_>(),
-                fire_red_asr: mem::zeroed::<_>(),
-                dolphin: mem::zeroed::<_>(),
-                zipformer_ctc: mem::zeroed::<_>(),
-                canary: mem::zeroed::<_>(),
-                funasr_nano: mem::zeroed::<_>(),
-                medasr: mem::zeroed::<_>(),
-                omnilingual: mem::zeroed::<_>(),
-                wenet_ctc: mem::zeroed::<_>(),
-            };
-
-            let recognizer_config = sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
-                model_config: offline_model_config,
-                feat_config: sherpa_rs_sys::SherpaOnnxFeatureConfig {
-                    sample_rate: config.sample_rate,
-                    feature_dim: config.feature_dim,
-                },
-                hotwords_file: hotwords_file.as_ptr(),
-                blank_penalty: config.blank_penalty,
-                decoding_method: decoding_method.as_ptr(),
-                hotwords_score: config.hotwords_score,
-
-                // NULLs
-                lm_config: mem::zeroed::<_>(),
-                rule_fsts: mem::zeroed::<_>(),
-                rule_fars: mem::zeroed::<_>(),
-                max_active_paths: mem::zeroed::<_>(),
-                hr: mem::zeroed::<_>(),
-            };
+            let mut recognizer_config =
+                crate::safe_default_offline_recognizer_config(offline_model_config, empty.as_ptr());
+            recognizer_config.feat_config.sample_rate = config.sample_rate;
+            recognizer_config.feat_config.feature_dim = config.feature_dim;
+            recognizer_config.hotwords_file = hotwords_file.as_ptr();
+            recognizer_config.blank_penalty = config.blank_penalty;
+            recognizer_config.decoding_method = decoding_method.as_ptr();
+            recognizer_config.hotwords_score = config.hotwords_score;
 
             let recognizer = sherpa_rs_sys::SherpaOnnxCreateOfflineRecognizer(&recognizer_config);
             if recognizer.is_null() {
