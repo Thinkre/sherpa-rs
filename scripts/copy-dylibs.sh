@@ -15,49 +15,80 @@ mkdir -p "$FRAMEWORKS_DIR"
 # 复制所需的动态库
 DYLIBS=(
     "libcargs.dylib"
-    "libonnxruntime.1.23.2.dylib"
     "libsherpa-onnx-c-api.dylib"
     "libsherpa-onnx-cxx-api.dylib"
 )
 
-# 查找 dylib：先 target/release/release，再 target/release（与 upgrade-onnxruntime 等脚本一致）
-RELEASE_DIR="$(cd "$(dirname "$APP_BUNDLE")/../.." && pwd)/release"
+# 查找 dylib 的候选目录（按优先级）：
+#   1. target/release/release（旧版 tauri 双层目录）
+#   2. target/release（标准位置）
+#   3. sherpa-rs-sys cmake build output（从 vendor 源码编译时产物在此）
 TARGET_RELEASE="$(cd "$(dirname "$APP_BUNDLE")/../.." && pwd)"
+RELEASE_DIR="$TARGET_RELEASE/release"
+SHERPA_BUILD_OUT="$(find "$TARGET_RELEASE/build" -maxdepth 2 -name "sherpa-rs-sys-*" -type d 2>/dev/null | head -1)/out"
+
+# 自动检测 onnxruntime 版本（支持 1.17.1 和 1.23.2）
+ONNX_DYLIB=""
+for candidate_dir in "$RELEASE_DIR" "$TARGET_RELEASE" "$SHERPA_BUILD_OUT"; do
+    found=$(find "$candidate_dir" -maxdepth 3 -name "libonnxruntime.*.dylib" ! -name "libonnxruntime.dylib" 2>/dev/null | head -1)
+    if [ -n "$found" ]; then
+        ONNX_DYLIB="$found"
+        ONNX_NAME="$(basename "$found")"
+        break
+    fi
+done
 
 echo "Copying dynamic libraries to $FRAMEWORKS_DIR..."
 
+# 复制 onnxruntime（版本自动检测）
+if [ -n "$ONNX_DYLIB" ]; then
+    echo "  - Copying $ONNX_NAME"
+    cp "$ONNX_DYLIB" "$FRAMEWORKS_DIR/"
+else
+    echo "  - Warning: libonnxruntime.*.dylib not found"
+fi
+
 for dylib in "${DYLIBS[@]}"; do
     SRC=""
-    if [ -f "$RELEASE_DIR/$dylib" ]; then
-        SRC="$RELEASE_DIR/$dylib"
-    elif [ -f "$TARGET_RELEASE/$dylib" ]; then
-        SRC="$TARGET_RELEASE/$dylib"
-    fi
+    for search_dir in "$RELEASE_DIR" "$TARGET_RELEASE" "$SHERPA_BUILD_OUT"; do
+        candidate=$(find "$search_dir" -maxdepth 3 -name "$dylib" 2>/dev/null | head -1)
+        if [ -n "$candidate" ]; then
+            SRC="$candidate"
+            break
+        fi
+    done
     if [ -n "$SRC" ]; then
         echo "  - Copying $dylib"
         cp "$SRC" "$FRAMEWORKS_DIR/"
     else
-        echo "  - Warning: $dylib not found in $RELEASE_DIR or $TARGET_RELEASE"
+        echo "  - Warning: $dylib not found"
     fi
 done
 
 # 至少需要 onnxruntime 和 sherpa 才能启动，否则直接报错
-if [ ! -f "$FRAMEWORKS_DIR/libonnxruntime.1.23.2.dylib" ] || [ ! -f "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" ]; then
+ONNX_IN_FRAMEWORKS=$(find "$FRAMEWORKS_DIR" -name "libonnxruntime.*.dylib" ! -name "libonnxruntime.dylib" 2>/dev/null | head -1)
+if [ -z "$ONNX_IN_FRAMEWORKS" ] || [ ! -f "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" ]; then
     echo ""
     echo "❌ 缺少关键动态库，应用将无法启动。"
     echo "   请确保 dylib 在以下任一目录："
     echo "   - $RELEASE_DIR"
     echo "   - $TARGET_RELEASE"
-    echo "   若使用 sherpa-onnx 构建，请设置 SHERPA_LIB_PATH 或把生成的 dylib 复制到 target/release/"
+    echo "   - $SHERPA_BUILD_OUT"
+    echo "   若未设置 SHERPA_LIB_PATH，构建时会从 vendor/sherpa-rs 源码自动编译。"
     exit 1
 fi
+
+# 记录实际使用的 onnxruntime 版本名
+ONNX_NAME="$(basename "$ONNX_IN_FRAMEWORKS")"
 
 # 修改二进制文件的 rpath
 BINARY="$APP_BUNDLE/Contents/MacOS/kevoiceinput"
 echo "Updating rpath in $BINARY..."
 
-# 主程序可能链接的是 1.17.1（cargo 用 target/release 下的符号链接），需改为 1.23.2
-install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@executable_path/../Frameworks/libonnxruntime.1.23.2.dylib" "$BINARY" 2>/dev/null || true
+# 主程序：将所有 onnxruntime 版本的 rpath 指向实际存在的版本
+install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@executable_path/../Frameworks/$ONNX_NAME" "$BINARY" 2>/dev/null || true
+install_name_tool -change "@rpath/libonnxruntime.1.23.2.dylib" "@executable_path/../Frameworks/$ONNX_NAME" "$BINARY" 2>/dev/null || true
+install_name_tool -change "@rpath/$ONNX_NAME" "@executable_path/../Frameworks/$ONNX_NAME" "$BINARY" 2>/dev/null || true
 # 为每个动态库更新安装名称
 for dylib in "${DYLIBS[@]}"; do
     if [ -f "$FRAMEWORKS_DIR/$dylib" ]; then
@@ -71,28 +102,28 @@ echo "Fixing library dependencies..."
 # libsherpa-onnx-c-api.dylib 依赖
 if [ -f "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" ]; then
     echo "  - Fixing libsherpa-onnx-c-api.dylib"
-    # 修复 onnxruntime：sherpa 可能链接的是 1.17.1 或 1.23.2，统一改为实际存在的 1.23.2
-    install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
-    install_name_tool -change "@loader_path/libonnxruntime.1.17.1.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
-    install_name_tool -change "@rpath/libonnxruntime.1.23.2.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@loader_path/libonnxruntime.1.17.1.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@rpath/libonnxruntime.1.23.2.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@loader_path/libonnxruntime.1.23.2.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
     install_name_tool -id "@loader_path/libsherpa-onnx-c-api.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-c-api.dylib" 2>/dev/null || true
 fi
 
 # libsherpa-onnx-cxx-api.dylib 依赖
 if [ -f "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" ]; then
     echo "  - Fixing libsherpa-onnx-cxx-api.dylib"
-    # 修复 onnxruntime：同上，兼容 1.17.1 与 1.23.2 链接名
-    install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
-    install_name_tool -change "@loader_path/libonnxruntime.1.17.1.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
-    install_name_tool -change "@rpath/libonnxruntime.1.23.2.dylib" "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@rpath/libonnxruntime.1.17.1.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@loader_path/libonnxruntime.1.17.1.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@rpath/libonnxruntime.1.23.2.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
+    install_name_tool -change "@loader_path/libonnxruntime.1.23.2.dylib" "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
     install_name_tool -change "@rpath/libsherpa-onnx-c-api.dylib" "@loader_path/libsherpa-onnx-c-api.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
     install_name_tool -id "@loader_path/libsherpa-onnx-cxx-api.dylib" "$FRAMEWORKS_DIR/libsherpa-onnx-cxx-api.dylib" 2>/dev/null || true
 fi
 
 # libonnxruntime 设置 ID
-if [ -f "$FRAMEWORKS_DIR/libonnxruntime.1.23.2.dylib" ]; then
-    echo "  - Fixing libonnxruntime.1.23.2.dylib"
-    install_name_tool -id "@loader_path/libonnxruntime.1.23.2.dylib" "$FRAMEWORKS_DIR/libonnxruntime.1.23.2.dylib" 2>/dev/null || true
+if [ -f "$FRAMEWORKS_DIR/$ONNX_NAME" ]; then
+    echo "  - Fixing $ONNX_NAME"
+    install_name_tool -id "@loader_path/$ONNX_NAME" "$FRAMEWORKS_DIR/$ONNX_NAME" 2>/dev/null || true
 fi
 
 # libcargs 设置 ID
