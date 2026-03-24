@@ -4,7 +4,7 @@ import { type } from "@tauri-apps/plugin-os";
 
 // Conditional import for macOS-only permissions
 let checkAccessibilityPermission: (() => Promise<boolean>) | null = null;
-let requestAccessibilityPermission: (() => Promise<void>) | null = null;
+let requestAccessibilityPermission: (() => Promise<unknown>) | null = null;
 
 // Only load macOS permissions on macOS
 if (type() === "macos") {

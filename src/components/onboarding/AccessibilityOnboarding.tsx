@@ -9,9 +9,9 @@ import { Keyboard, Mic, Check, Loader2 } from "lucide-react";
 
 // Conditional import for macOS-only permissions
 let checkAccessibilityPermission: (() => Promise<boolean>) | null = null;
-let requestAccessibilityPermission: (() => Promise<void>) | null = null;
+let requestAccessibilityPermission: (() => Promise<unknown>) | null = null;
 let checkMicrophonePermission: (() => Promise<boolean>) | null = null;
-let requestMicrophonePermission: (() => Promise<void>) | null = null;
+let requestMicrophonePermission: (() => Promise<unknown>) | null = null;
 
 // Only load macOS permissions on macOS
 const currentPlatform = platform();

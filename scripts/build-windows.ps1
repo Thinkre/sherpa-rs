@@ -1,10 +1,19 @@
 # KeVoiceInput Windows Build Script
 # PowerShell script for building Windows version
+#
+# SHERPA_LIB_PATH:
+#   - Pass -SherpaPath, or set $env:SHERPA_LIB_PATH, or omit both:
+#     after the first successful build, sherpa-rs stores DLLs under
+#     %LOCALAPPDATA%\sherpa-rs\x86_64-pc-windows-msvc\... and this script
+#     auto-fills SHERPA_LIB_PATH for the current session.
+#   - -PersistUserEnv: also save SHERPA_LIB_PATH to your Windows user env
+#     (visible in new terminals; current session already has $env: set).
 
 param(
     [switch]$Clean = $false,
     [switch]$Dev = $false,
-    [string]$SherpaPath = $env:SHERPA_LIB_PATH
+    [string]$SherpaPath = $env:SHERPA_LIB_PATH,
+    [switch]$PersistUserEnv = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -15,6 +24,23 @@ Write-Host "╔═════════════════════�
 Write-Host "║         KeVoiceInput Windows Build Script                     ║" -ForegroundColor Cyan
 Write-Host "╚═══════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
+
+# sherpa-rs download_binaries cache: dirs::cache_dir().join("sherpa-rs").join(target triple)
+function Get-SherpaLibPathFromDownloadCache {
+    $cacheRoot = Join-Path $env:LOCALAPPDATA "sherpa-rs"
+    # dist.json currently ships only x86_64 Windows prebuilts
+    $triple = "x86_64-pc-windows-msvc"
+    $base = Join-Path $cacheRoot $triple
+    if (-not (Test-Path $base)) {
+        return $null
+    }
+    $dll = Get-ChildItem -Path $base -Recurse -Filter "sherpa-onnx-c-api.dll" -ErrorAction SilentlyContinue |
+        Select-Object -First 1
+    if ($dll) {
+        return $dll.Directory.FullName
+    }
+    return $null
+}
 
 # Check prerequisites
 function Test-Prerequisites {
@@ -56,8 +82,10 @@ function Test-SherpaLibraries {
 
     if ([string]::IsNullOrEmpty($SherpaPath)) {
         Write-Host "  ⚠  SHERPA_LIB_PATH not set" -ForegroundColor Yellow
-        Write-Host "  Please set environment variable or pass -SherpaPath parameter" -ForegroundColor Yellow
-        Write-Host "  Example: -SherpaPath 'C:\path\to\sherpa-onnx\install\bin'" -ForegroundColor Yellow
+        Write-Host "  Cargo may still download sherpa-onnx (download-binaries). After the first successful build," -ForegroundColor Yellow
+        Write-Host "  re-run this script: it will auto-set SHERPA_LIB_PATH from:" -ForegroundColor Yellow
+        Write-Host "    $([System.IO.Path]::Combine($env:LOCALAPPDATA, 'sherpa-rs', 'x86_64-pc-windows-msvc'))" -ForegroundColor Gray
+        Write-Host "  Or pass -SherpaPath / set `$env:SHERPA_LIB_PATH to your sherpa-onnx\bin folder." -ForegroundColor Yellow
         Write-Host ""
         return
     }
@@ -268,6 +296,24 @@ function Show-BuildSummary {
 
 # Main execution
 try {
+    if ([string]::IsNullOrEmpty($SherpaPath)) {
+        $cached = Get-SherpaLibPathFromDownloadCache
+        if ($cached) {
+            $SherpaPath = $cached
+            $env:SHERPA_LIB_PATH = $cached
+            Write-Host "[Auto] SHERPA_LIB_PATH (from sherpa-rs download cache): $cached" -ForegroundColor Green
+            if ($PersistUserEnv) {
+                [System.Environment]::SetEnvironmentVariable("SHERPA_LIB_PATH", $cached, "User")
+                Write-Host "[Auto] Persisted SHERPA_LIB_PATH to user environment (new terminals)." -ForegroundColor Green
+            }
+            Write-Host ""
+        }
+    } elseif ($PersistUserEnv -and -not [string]::IsNullOrEmpty($SherpaPath)) {
+        [System.Environment]::SetEnvironmentVariable("SHERPA_LIB_PATH", $SherpaPath, "User")
+        Write-Host "[Auto] Persisted SHERPA_LIB_PATH to user environment: $SherpaPath" -ForegroundColor Green
+        Write-Host ""
+    }
+
     Test-Prerequisites
     Test-SherpaLibraries
     Clean-BuildArtifacts

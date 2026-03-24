@@ -10,7 +10,7 @@ PowerShell 脚本，用于在 Windows 上构建 KeVoiceInput。
 
 **功能**:
 - ✅ 前置条件检查（Rust, Bun/npm, Visual Studio）
-- ✅ sherpa-onnx 库验证
+- ✅ sherpa-onnx 库验证（可从 `%LOCALAPPDATA%\sherpa-rs\...` 缓存自动解析 `SHERPA_LIB_PATH`）
 - ✅ 可选清理构建产物
 - ✅ 自动安装依赖
 - ✅ 构建前端和后端
@@ -31,6 +31,9 @@ PowerShell 脚本，用于在 Windows 上构建 KeVoiceInput。
 
 # 指定 sherpa-onnx 库路径
 .\scripts\build-windows.ps1 -SherpaPath "C:\path\to\sherpa-onnx\install\bin"
+
+# 将当前解析到的 SHERPA_LIB_PATH 写入用户环境变量（新终端生效）
+.\scripts\build-windows.ps1 -PersistUserEnv
 ```
 
 **参数**:
@@ -40,6 +43,7 @@ PowerShell 脚本，用于在 Windows 上构建 KeVoiceInput。
 | `-Dev` | Switch | `false` | 开发模式，启动 Tauri dev 服务器 |
 | `-Clean` | Switch | `false` | 构建前清理旧的构建产物 |
 | `-SherpaPath` | String | `$env:SHERPA_LIB_PATH` | sherpa-onnx DLL 路径 |
+| `-PersistUserEnv` | Switch | `false` | 将 `SHERPA_LIB_PATH` 写入当前用户环境（需配合已解析路径或 `-SherpaPath`） |
 
 **环境变量**:
 
@@ -93,7 +97,7 @@ $env:SHERPA_LIB_PATH = "C:\sherpa-build\sherpa-onnx\install\bin"
 |------|------|---------|
 | "Rust not found" | 未安装 Rust | `winget install Rustlang.Rustup` |
 | "Neither Bun nor npm found" | 未安装包管理器 | `winget install Oven-sh.Bun` |
-| "Sherpa library path not found" | `SHERPA_LIB_PATH` 未设置 | 设置环境变量或使用 `-SherpaPath` |
+| "Sherpa library path not found" | `SHERPA_LIB_PATH` 未设置 | 设置环境变量、`-SherpaPath`，或先成功构建一次后脚本会从 `%LOCALAPPDATA%\sherpa-rs` 自动解析 |
 | "Missing: *.dll" | DLL 文件不完整 | 重新编译 sherpa-onnx |
 | "Tauri build failed" | 编译错误 | 检查 Rust 和 VS Build Tools |
 
