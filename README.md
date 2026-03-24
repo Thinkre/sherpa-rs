@@ -76,3 +76,15 @@ See [examples](examples)
 ## Models
 
 All pretrained models available at [sherpa/onnx/pretrained_models](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html)
+
+# KeVoiceInput 定制版 sherpa-rs
+
+这是为 KeVoiceInput 项目定制的 sherpa-rs 版本，增加了 SeACo Paraformer 的 model_eb 支持。
+
+## 自定义功能
+
+- 添加对 SeACo Paraformer 的 model_eb 功能支持
+- 为 KeVoiceInput 热词检测优化的 API 集成
+- 包含与 KeVoiceInput 定制版 sherpa-onnx 的特定兼容性
+
+---

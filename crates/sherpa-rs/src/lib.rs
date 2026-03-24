@@ -28,6 +28,71 @@ pub use sherpa_rs_sys;
 use eyre::{bail, Result};
 use utils::cstr_to_string;
 
+/// Create a safe default SherpaOnnxOfflineModelConfig with all char* fields set to empty strings.
+/// sherpa-onnx calls strlen() on all char* fields unconditionally, so null pointers cause SIGSEGV.
+pub(crate) fn safe_default_offline_model_config(empty: *const std::os::raw::c_char) -> sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
+    unsafe {
+        sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
+            debug: 0,
+            num_threads: 1,
+            provider: empty,
+            tokens: empty,
+            model_type: empty,
+            modeling_unit: empty,
+            bpe_vocab: empty,
+            telespeech_ctc: empty,
+            paraformer: sherpa_rs_sys::SherpaOnnxOfflineParaformerModelConfig {
+                model: empty,
+                model_eb: empty,
+            },
+            transducer: sherpa_rs_sys::SherpaOnnxOfflineTransducerModelConfig {
+                encoder: empty,
+                decoder: empty,
+                joiner: empty,
+            },
+            whisper: sherpa_rs_sys::SherpaOnnxOfflineWhisperModelConfig {
+                encoder: empty,
+                decoder: empty,
+                language: empty,
+                task: empty,
+                tail_paddings: 0,
+            },
+            tdnn: sherpa_rs_sys::SherpaOnnxOfflineTdnnModelConfig { model: empty },
+            nemo_ctc: sherpa_rs_sys::SherpaOnnxOfflineNemoEncDecCtcModelConfig { model: empty },
+            fire_red_asr: sherpa_rs_sys::SherpaOnnxOfflineFireRedAsrModelConfig { encoder: empty, decoder: empty },
+            sense_voice: sherpa_rs_sys::SherpaOnnxOfflineSenseVoiceModelConfig { model: empty, language: empty, use_itn: 0 },
+            moonshine: sherpa_rs_sys::SherpaOnnxOfflineMoonshineModelConfig { preprocessor: empty, encoder: empty, uncached_decoder: empty, cached_decoder: empty },
+            dolphin: sherpa_rs_sys::SherpaOnnxOfflineDolphinModelConfig { model: empty },
+            zipformer_ctc: sherpa_rs_sys::SherpaOnnxOfflineZipformerCtcModelConfig { model: empty },
+            canary: sherpa_rs_sys::SherpaOnnxOfflineCanaryModelConfig { encoder: empty, decoder: empty, src_lang: empty, tgt_lang: empty, use_pnc: 0 },
+            funasr_nano: sherpa_rs_sys::SherpaOnnxOfflineFunASRNanoModelConfig { encoder_adaptor: empty, llm: empty, embedding: empty, tokenizer: empty, system_prompt: empty, user_prompt: empty, max_new_tokens: 0, temperature: 0.0, top_p: 0.0, seed: 0 },
+            medasr: sherpa_rs_sys::SherpaOnnxOfflineMedAsrCtcModelConfig { model: empty },
+            omnilingual: sherpa_rs_sys::SherpaOnnxOfflineOmnilingualAsrCtcModelConfig { model: empty },
+            wenet_ctc: sherpa_rs_sys::SherpaOnnxOfflineWenetCtcModelConfig { model: empty },
+        }
+    }
+}
+
+/// Create a safe default SherpaOnnxOfflineRecognizerConfig with all char* fields set to empty strings.
+pub(crate) fn safe_default_offline_recognizer_config(
+    model_config: sherpa_rs_sys::SherpaOnnxOfflineModelConfig,
+    empty: *const std::os::raw::c_char,
+) -> sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
+    sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
+        feat_config: sherpa_rs_sys::SherpaOnnxFeatureConfig { sample_rate: 16000, feature_dim: 80 },
+        model_config,
+        lm_config: sherpa_rs_sys::SherpaOnnxOfflineLMConfig { model: empty, scale: 1.0 },
+        decoding_method: empty,
+        max_active_paths: 0,
+        hotwords_file: empty,
+        hotwords_score: 0.0,
+        rule_fsts: empty,
+        rule_fars: empty,
+        blank_penalty: 0.0,
+        hr: sherpa_rs_sys::SherpaOnnxHomophoneReplacerConfig { dict_dir: empty, lexicon: empty, rule_fsts: empty },
+    }
+}
+
 pub fn get_default_provider() -> String {
     "cpu".into()
     // Other providers has many issues with different models!!
