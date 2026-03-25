@@ -77,12 +77,9 @@ tar = "0.4.44"
 flate2 = "1.0"
 bzip2 = "0.4"
 transcribe-rs = { version = "0.2.2", features = ["whisper"] }
-# Sherpa-ONNX 配置
-# 从 vendor/sherpa-rs/crates/sherpa-rs-sys/sherpa-onnx/ 源码通过 CMake 编译
-# 编译时会自动下载 onnxruntime 预编译库（libonnxruntime.1.23.2.dylib）
-# 若已设置 SHERPA_LIB_PATH 则跳过 CMake，直接使用本地库
-sherpa-rs = { path = "../vendor/sherpa-rs/crates/sherpa-rs", default-features = false }
-sherpa-rs-sys = { path = "../vendor/sherpa-rs/crates/sherpa-rs-sys", default-features = false }
+# Sherpa-ONNX 配置 - 使用本地路径加速开发
+sherpa-rs = { path = "/Users/thinkre/Desktop/Thinkre/sherpa-rs/crates/sherpa-rs", default-features = false, features = ["download-binaries"] }
+sherpa-rs-sys = { path = "/Users/thinkre/Desktop/Thinkre/sherpa-rs/crates/sherpa-rs-sys", default-features = false, features = ["download-binaries"] }
 ferrous-opencc = "0.2.3"
 ort = { version = "2.0.0-rc.10", features = ["ndarray"] }
 ndarray = "0.15"

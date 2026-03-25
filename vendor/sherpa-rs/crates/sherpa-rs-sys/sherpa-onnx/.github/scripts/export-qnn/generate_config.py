@@ -1,1 +1,0 @@
-../../../scripts/qnn/generate_config.py

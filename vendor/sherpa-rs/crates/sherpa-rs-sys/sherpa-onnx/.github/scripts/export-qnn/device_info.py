@@ -1,1 +1,0 @@
-../../../scripts/qnn/device_info.py
