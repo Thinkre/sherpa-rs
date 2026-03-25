@@ -23,6 +23,31 @@ npm i
 In the following, we describe how to use [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)
 for text-to-speech and speech-to-text.
 
+# Punctuation
+
+In the following, we demonstrate how to add punctuations to text with the
+WebAssembly NodeJS package.
+
+```bash
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12.tar.bz2
+tar xvf sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12.tar.bz2
+rm sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12.tar.bz2
+
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+tar xvf sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+rm sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+
+node ./test-offline-punctuation.js
+node ./test-online-punctuation.js
+```
+
+The punctuation example files are:
+
+```bash
+node ./test-offline-punctuation.js
+node ./test-online-punctuation.js
+```
+
 
 # Speech enhancement
 
@@ -30,8 +55,35 @@ In the following, we demonstrate how to run speech enhancement.
 
 ```bash
 curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/gtcrn_simple.onnx
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet_baseline.onnx
 curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 node ./test-offline-speech-enhancement-gtcrn.js
+node ./test-online-speech-enhancement-gtcrn.js
+```
+
+The GTCRN example files use `gtcrn_simple.onnx`.
+
+DPDFNet has a separate example file. Download DPDFNet models from
+`https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models`
+or the official Hugging Face hub `https://huggingface.co/Ceva-IP/DPDFNet`
+
+Use 16 kHz DPDFNet models such as `dpdfnet_baseline.onnx`, `dpdfnet2.onnx`,
+`dpdfnet4.onnx`, or `dpdfnet8.onnx` if you want enhanced audio for downstream
+ASR or speech recognition, and use `dpdfnet2_48khz_hr.onnx` if you want 48 kHz
+enhancement output.
+
+```bash
+node ./test-offline-speech-enhancement-dpdfnet.js
+node ./test-online-speech-enhancement-dpdfnet.js
+```
+
+The following four example files are available:
+
+```bash
+node ./test-offline-speech-enhancement-gtcrn.js
+node ./test-offline-speech-enhancement-dpdfnet.js
+node ./test-online-speech-enhancement-gtcrn.js
+node ./test-online-speech-enhancement-dpdfnet.js
 ```
 
 # Speaker diarization
@@ -53,6 +105,38 @@ node ./test-offline-speaker-diarization.js
 # Text-to-speech
 
 In the following, we demonstrate how to run text-to-speech.
+
+## ./test-offline-tts-zipvoice-zh-en.js
+
+[./test-offline-tts-zipvoice-zh-en.js](./test-offline-tts-zipvoice-zh-en.js)
+shows how to use ZipVoice for Zero-shot TTS in Chinese and English.
+
+Please make sure that the reference transcript matches the reference audio.
+
+You can use the following command to run it:
+```bash
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia.tar.bz2
+tar xf sherpa-onnx-zipvoice-distill-int8-zh-en-emilia.tar.bz2
+rm sherpa-onnx-zipvoice-distill-int8-zh-en-emilia.tar.bz2
+
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos_24khz.onnx
+
+node ./test-offline-tts-zipvoice-zh-en.js
+```
+
+## ./test-offline-tts-pocket-en.js
+
+[./test-offline-tts-pocket-en.js](./test-offline-tts-pocket-en.js)
+shows how to use PocketTTS for Zero-shot TTS.
+
+You can use the following command to run it:
+```
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/sherpa-onnx-pocket-tts-int8-2026-01-26.tar.bz2
+tar xf sherpa-onnx-pocket-tts-int8-2026-01-26.tar.bz2
+rm sherpa-onnx-pocket-tts-int8-2026-01-26.tar.bz2
+
+node ./test-offline-tts-pocket-en.js
+```
 
 ## ./test-offline-tts-kitten-en.js
 
@@ -235,6 +319,22 @@ rm sherpa-onnx-medasr-ctc-en-int8-2025-12-25.tar.bz2
 node ./test-offline-medasr-ctc.js
 ```
 
+## ./test-offline-fire-red-asr-ctc.js
+
+[./test-offline-fire-red-asr-ctc.js](./test-offline-fire-red-asr-ctc.js) demonstrates
+how to decode a file with a FireRedASR CTC model. In the code we use
+[sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2).
+
+You can use the following command to run it:
+
+```bash
+wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2
+tar xvf sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2
+rm sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2
+
+node ./test-offline-fire-red-asr-ctc.js
+```
+
 ## ./test-offline-omnilingual-asr-ctc.js
 
 [./test-offline-omnilingual-asr-ctc.js](./test-offline-omnilingual-asr-ctc.js) demonstrates
@@ -390,6 +490,22 @@ tar xvf sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16.tar.bz2
 rm sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16.tar.bz2
 
 node ./test-offline-fire-red-asr.js
+```
+
+## ./test-offline-moonshine-v2.js
+
+[./test-offline-moonshine-v2.js](./test-offline-moonshine-v2.js) demonstrates
+how to decode a file with a Moonshine v2 model. In the code we use
+[sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2).
+
+You can use the following command to run it:
+
+```bash
+wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2
+tar xvf sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2
+rm sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2
+
+node ./test-offline-moonshine-v2.js
 ```
 
 ## ./test-offline-moonshine.js

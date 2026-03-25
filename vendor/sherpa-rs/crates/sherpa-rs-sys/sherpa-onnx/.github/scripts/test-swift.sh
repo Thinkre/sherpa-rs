@@ -9,6 +9,20 @@ ls -lh
 
 ./run-test-version.sh
 
+./run-moonshine-v2-asr.sh
+rm -rf sherpa-onnx-moonshine-*
+
+./run-fire-red-asr-ctc.sh
+rm -rf sherpa-onnx-fire-red-*
+
+./run-tts-pocket-en.sh
+ls -lh
+rm -rf sherpa-onnx-pocket-*
+
+./run-tts-supertonic-en.sh
+ls -lh
+rm -rf sherpa-onnx-supertonic-*
+
 ./run-medasr-ctc-asr.sh
 rm -rf sherpa-onnx-medasr-*
 
@@ -42,6 +56,9 @@ rm -rf dict lexicon.txt replace.fst test-hr.wav
 rm -rf sherpa-onnx-dolphin-*
 
 ./run-speech-enhancement-gtcrn.sh
+./run-speech-enhancement-dpdfnet.sh
+./run-online-speech-enhancement-gtcrn.sh
+./run-online-speech-enhancement-dpdfnet.sh
 ls -lh *.wav
 
 ./run-fire-red-asr.sh
@@ -67,6 +84,11 @@ rm -rf matcha-icefall-*
 ls -lh
 rm -rf matcha-icefall-*
 
+./run-tts-zipvoice.sh
+ls -lh
+rm -rf sherpa-onnx-zipvoice-*
+rm -f vocos_24khz.onnx
+
 ./run-speaker-diarization.sh
 rm -rf *.onnx
 rm -rf sherpa-onnx-pyannote-segmentation-3-0
@@ -75,6 +97,10 @@ rm -fv *.wav
 ./run-add-punctuations.sh
 rm ./add-punctuations
 rm -rf sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12
+
+./run-add-punctuations-online.sh
+rm ./add-punctuation-online
+rm -rf sherpa-onnx-online-punct-en-2024-08-06
 
 ./run-keyword-spotting-from-file.sh
 rm ./keyword-spotting-from-file

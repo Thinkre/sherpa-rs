@@ -111,7 +111,10 @@ jobs:
             cp -v install/lib/*.dll ../pascal-api-examples/read-wav
             cp -v install/lib/*.dll ../pascal-api-examples/speaker-diarization
             cp -v install/lib/*.dll ../pascal-api-examples/speech-enhancement-gtcrn
+            cp -v install/lib/*.dll ../pascal-api-examples/speech-enhancement-dpdfnet
             cp -v install/lib/*.dll ../pascal-api-examples/streaming-asr
+            cp -v install/lib/*.dll ../pascal-api-examples/streaming-speech-enhancement-gtcrn
+            cp -v install/lib/*.dll ../pascal-api-examples/streaming-speech-enhancement-dpdfnet
             cp -v install/lib/*.dll ../pascal-api-examples/tts
             cp -v install/lib/*.dll ../pascal-api-examples/vad
             cp -v install/lib/*.dll ../pascal-api-examples/vad-with-non-streaming-asr
@@ -120,11 +123,102 @@ jobs:
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/read-wav
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/speaker-diarization
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/speech-enhancement-gtcrn
+            cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/speech-enhancement-dpdfnet
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/streaming-asr
+            cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/streaming-speech-enhancement-gtcrn
+            cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/streaming-speech-enhancement-dpdfnet
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/tts
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/vad
             cp -v ../sherpa-onnx/pascal-api/*.pas ../pascal-api-examples/vad-with-non-streaming-asr
           fi
+
+      - name:  Run Speech Enhancement test
+        shell: bash
+        run: |
+          export PATH=/c/lazarus/fpc/3.2.2/bin/x86_64-win64:$PATH
+
+          cd ./pascal-api-examples
+
+          pushd speech-enhancement-gtcrn
+          ./run-gtcrn.sh
+          ls -lh
+          popd
+
+          pushd speech-enhancement-dpdfnet
+          ./run-dpdfnet.sh
+          ls -lh
+          popd
+
+          pushd streaming-speech-enhancement-gtcrn
+          ./run-gtcrn.sh
+          ls -lh
+          popd
+
+          pushd streaming-speech-enhancement-dpdfnet
+          ./run-dpdfnet.sh
+          ls -lh
+          popd
+
+      - name:  Run Pascal test (TTS)
+        shell: bash
+        run: |
+          export PATH=/c/lazarus/fpc/3.2.2/bin/x86_64-win64:$PATH
+
+          cd ./pascal-api-examples
+          pushd tts
+
+          ./run-pocket-en.sh
+          rm -rf sherpa-onnx-pocket-*
+
+          ./run-piper.sh
+          rm -rf vits-piper-*
+          rm piper
+          ls -lh
+          echo "---"
+
+          ./run-kokoro-zh-en.sh
+          rm -rf kokoro-multi-*
+          rm kokoro-zh-en
+          ls -lh
+          echo "---"
+
+          ./run-kokoro-en.sh
+          rm -rf kokoro-en-*
+          rm kokoro-en
+          ls -lh
+          echo "---"
+
+          ./run-matcha-zh.sh
+          rm -rf matcha-icefall-*
+          rm matcha-zh
+          ls -lh
+          echo "---"
+
+          ./run-matcha-en.sh
+          rm -rf matcha-icefall-*
+          rm matcha-en
+          ls -lh
+          echo "---"
+
+          ./run-supertonic-en.sh
+          rm -rf sherpa-onnx-supertonic-*
+          rm supertonic-en
+          ls -lh
+          echo "---"
+
+          ./run-zipvoice-zh-en.sh
+          rm -rf sherpa-onnx-zipvoice-*
+          rm -f vocos_24khz.onnx
+          rm zipvoice-zh-en
+          ls -lh
+          echo "---"
+
+          popd
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tts-${{ matrix.os }}
+          path: ./pascal-api-examples/tts/*.wav
 
       - name:  Run Pascal test (Non Streaming ASR)
         shell: bash
@@ -167,8 +261,14 @@ jobs:
           rm -rf sherpa-onnx-*
           echo "---"
 
+          ./run-moonshine-v2.sh
+
           ./run-moonshine.sh
           rm -rf sherpa-onnx-*
+          echo "---"
+
+          ./run-fire-red-asr-ctc.sh
+          rm -rf sherpa-onnx-fire-red-asr*
           echo "---"
 
           ./run-fire-red-asr.sh
@@ -263,17 +363,6 @@ jobs:
 
           popd
 
-      - name:  Run Speech Enhancement test (GTCRN)
-        shell: bash
-        run: |
-          export PATH=/c/lazarus/fpc/3.2.2/bin/x86_64-win64:$PATH
-
-          cd ./pascal-api-examples
-
-          pushd speech-enhancement-gtcrn
-          ./run-gtcrn.sh
-          ls -lh
-
       - name:  Run Pascal test (Speaker diarization)
         shell: bash
         run: |
@@ -284,46 +373,6 @@ jobs:
 
           ./run.sh
           rm -rfv *.onnx *.wav sherpa-onnx-*
-          ls -lh
-          echo "---"
-
-          popd
-
-      - name:  Run Pascal test (TTS)
-        shell: bash
-        run: |
-          export PATH=/c/lazarus/fpc/3.2.2/bin/x86_64-win64:$PATH
-
-          cd ./pascal-api-examples
-          pushd tts
-
-          ./run-piper.sh
-          rm -rf vits-piper-*
-          rm piper
-          ls -lh
-          echo "---"
-
-          ./run-kokoro-zh-en.sh
-          rm -rf kokoro-multi-*
-          rm kokoro-zh-en
-          ls -lh
-          echo "---"
-
-          ./run-kokoro-en.sh
-          rm -rf kokoro-en-*
-          rm kokoro-en
-          ls -lh
-          echo "---"
-
-          ./run-matcha-zh.sh
-          rm -rf matcha-icefall-*
-          rm matcha-zh
-          ls -lh
-          echo "---"
-
-          ./run-matcha-en.sh
-          rm -rf matcha-icefall-*
-          rm matcha-en
           ls -lh
           echo "---"
 

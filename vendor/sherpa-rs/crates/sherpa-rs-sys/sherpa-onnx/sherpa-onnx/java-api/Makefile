@@ -10,6 +10,7 @@ java_files := LibraryUtils.java
 java_files += LibraryLoader.java
 
 java_files += VersionInfo.java
+java_files += WaveData.java
 java_files += WaveReader.java
 java_files += WaveWriter.java
 java_files += EndpointRule.java
@@ -40,6 +41,7 @@ java_files += OfflineZipformerCtcModelConfig.java
 java_files += OfflineWenetCtcModelConfig.java
 java_files += OfflineOmnilingualAsrCtcModelConfig.java
 java_files += OfflineMedAsrCtcModelConfig.java
+java_files += OfflineFireRedAsrCtcModelConfig.java
 java_files += OfflineFunAsrNanoModelConfig.java
 java_files += OfflineCanaryModelConfig.java
 java_files += OfflineSenseVoiceModelConfig.java
@@ -50,8 +52,12 @@ java_files += OfflineRecognizerResult.java
 java_files += OfflineStream.java
 java_files += OfflineRecognizer.java
 
+java_files += GenerationConfig.java
 java_files += OfflineTtsKittenModelConfig.java
+java_files += OfflineTtsPocketModelConfig.java
+java_files += OfflineTtsSupertonicModelConfig.java
 java_files += OfflineTtsKokoroModelConfig.java
+java_files += OfflineTtsZipVoiceModelConfig.java
 java_files += OfflineTtsMatchaModelConfig.java
 java_files += OfflineTtsVitsModelConfig.java
 java_files += OfflineTtsModelConfig.java
@@ -101,10 +107,13 @@ java_files += OfflineSpeakerDiarizationCallback.java
 java_files += OfflineSpeakerDiarization.java
 
 java_files += OfflineSpeechDenoiserGtcrnModelConfig.java
+java_files += OfflineSpeechDenoiserDpdfNetModelConfig.java
 java_files += OfflineSpeechDenoiserModelConfig.java
 java_files += OfflineSpeechDenoiserConfig.java
 java_files += DenoisedAudio.java
 java_files += OfflineSpeechDenoiser.java
+java_files += OnlineSpeechDenoiserConfig.java
+java_files += OnlineSpeechDenoiser.java
 
 class_files := $(java_files:%.java=%.class)
 

@@ -24,10 +24,6 @@ struct OfflineParaformerModelConfig {
   // "/path/to/libencoder.so,/path/to/libpredictor.so,/path/to/libdecoder.so"
   std::string model;
 
-  // For SeACo-Paraformer: path to embedding model (model_eb.onnx)
-  // Used for hotwords support. If empty, regular Paraformer is used.
-  std::string model_eb;
-
   QnnConfig qnn_config;
 
   OfflineParaformerModelConfig() = default;

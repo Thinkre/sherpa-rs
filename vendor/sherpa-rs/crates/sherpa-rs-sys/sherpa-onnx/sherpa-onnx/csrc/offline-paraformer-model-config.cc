@@ -21,10 +21,6 @@ void OfflineParaformerModelConfig::Register(ParseOptions *po) {
       "/path/to/encoder.om,/path/to/predictor.om,/path/to/decoder.om"
       "If you use RK NPU, it is "
       "/path/to/encoder.rknn,/path/to/predictor.rknn,/path/to/decoder.rknn");
-  po->Register(
-      "paraformer-eb", &model_eb,
-      "Path to model_eb.onnx of SeACo-Paraformer (embedding model for "
-      "hotwords). If empty, regular Paraformer is used.");
 
   std::string prefix = "paraformer";
   ParseOptions p(prefix, po);
@@ -37,14 +33,6 @@ bool OfflineParaformerModelConfig::Validate() const {
     if (!FileExists(model)) {
       SHERPA_ONNX_LOGE("Paraformer model '%s' does not exist", model.c_str());
       return false;
-    }
-    // Validate embedding model if provided (for SeACo-Paraformer)
-    if (!model_eb.empty()) {
-      if (!FileExists(model_eb)) {
-        SHERPA_ONNX_LOGE("Paraformer embedding model '%s' does not exist",
-                         model_eb.c_str());
-        return false;
-      }
     }
     return true;
   }
@@ -171,10 +159,6 @@ std::string OfflineParaformerModelConfig::ToString() const {
 
   os << "OfflineParaformerModelConfig(";
   os << "model=\"" << model << "\"";
-
-  if (!model_eb.empty()) {
-    os << ", model_eb=\"" << model_eb << "\"";
-  }
 
   if (!qnn_config.backend_lib.empty()) {
     os << ", qnn_config=" << qnn_config.ToString();

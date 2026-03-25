@@ -81,16 +81,10 @@ bool OfflineRecognizerConfig::Validate() const {
     }
   }
 
-  // For SeACo-Paraformer, hotwords can be used with greedy_search
-  bool is_seaco_paraformer = !model_config.paraformer.model.empty() &&
-                              !model_config.paraformer.model_eb.empty();
-
-  if (!hotwords_file.empty() && decoding_method != "modified_beam_search" &&
-      !is_seaco_paraformer) {
+  if (!hotwords_file.empty() && decoding_method != "modified_beam_search") {
     SHERPA_ONNX_LOGE(
         "Please use --decoding-method=modified_beam_search if you"
-        " provide --hotwords-file. Given --decoding-method='%s'"
-        " (Note: SeACo-Paraformer supports hotwords with greedy_search)",
+        " provide --hotwords-file. Given --decoding-method='%s'",
         decoding_method.c_str());
     return false;
   }
