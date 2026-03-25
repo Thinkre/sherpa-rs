@@ -188,17 +188,9 @@ impl ParaformerRecognizer {
             model_config.paraformer.model_eb = eb.as_ptr();
         }
 
-<<<<<<< HEAD
         let mut recognizer_config = crate::safe_default_offline_recognizer_config(model_config, empty_cstr.as_ptr());
         recognizer_config.decoding_method = decoding_method_cstr.as_ptr();
         recognizer_config.hotwords_file = hotwords_file_cstr.as_ref()
-=======
-        let mut recognizer_config =
-            crate::safe_default_offline_recognizer_config(model_config, empty_cstr.as_ptr());
-        recognizer_config.decoding_method = decoding_method_cstr.as_ptr();
-        recognizer_config.hotwords_file = hotwords_file_cstr
-            .as_ref()
->>>>>>> 19dabecc69d626c196646c299304875246b97fd4
             .map(|s| s.as_ptr())
             .unwrap_or(empty_cstr.as_ptr());
         recognizer_config.hotwords_score = config.hotwords_score;
