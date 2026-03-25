@@ -1,4 +1,4 @@
-use crate::{get_default_provider, utils::cstring_from_str};
+use crate::{get_default_provider, safe_default_offline_model_config, utils::cstring_from_str};
 use eyre::{bail, Result};
 use std::mem;
 
@@ -46,60 +46,43 @@ impl SenseVoiceRecognizer {
         let language_ptr = cstring_from_str(&config.language);
         let use_itn = if config.use_itn { 1 } else { 0 };
 
-        let sense_voice_config = sherpa_rs_sys::SherpaOnnxOfflineSenseVoiceModelConfig {
+        let empty_ptr = cstring_from_str("");
+        let mut model_config = unsafe { safe_default_offline_model_config(empty_ptr.as_ptr()) };
+
+        model_config.tokens = cstring_from_str(&config.tokens).as_ptr();
+        model_config.provider = provider_ptr.as_ptr();
+        model_config.num_threads = num_threads;
+        model_config.debug = debug;
+        model_config.sense_voice = sherpa_rs_sys::SherpaOnnxOfflineSenseVoiceModelConfig {
             model: model_ptr.as_ptr(),
             language: language_ptr.as_ptr(),
             use_itn,
         };
 
-        // General model config
-        let tokens_ptr = cstring_from_str(&config.tokens);
-        let model_config = unsafe {
-            sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
-                tokens: tokens_ptr.as_ptr(),
-                provider: provider_ptr.as_ptr(),
-                num_threads,
-                debug,
-                sense_voice: sense_voice_config,
-                // Other fields set to default/null
-                bpe_vocab: mem::zeroed::<_>(),
-                model_type: mem::zeroed::<_>(),
-                modeling_unit: mem::zeroed::<_>(),
-                nemo_ctc: mem::zeroed::<_>(),
-                paraformer: mem::zeroed::<_>(),
-                tdnn: mem::zeroed::<_>(),
-                telespeech_ctc: mem::zeroed::<_>(),
-                fire_red_asr: mem::zeroed::<_>(),
-                transducer: mem::zeroed::<_>(),
-                whisper: mem::zeroed::<_>(),
-                moonshine: mem::zeroed::<_>(),
-                dolphin: mem::zeroed::<_>(),
-                zipformer_ctc: mem::zeroed(),
-                canary: mem::zeroed(),
-                wenet_ctc: mem::zeroed::<_>(),
-            }
-        };
-
         // Recognizer config
         let config = unsafe {
             sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
-                decoding_method: mem::zeroed::<_>(),
+                decoding_method: empty_ptr.as_ptr(),
                 feat_config: sherpa_rs_sys::SherpaOnnxFeatureConfig {
                     sample_rate: 16000,
                     feature_dim: 80,
                 },
-                hotwords_file: mem::zeroed::<_>(),
+                hotwords_file: empty_ptr.as_ptr(),
                 hotwords_score: 0.0,
                 lm_config: sherpa_rs_sys::SherpaOnnxOfflineLMConfig {
-                    model: mem::zeroed::<_>(),
-                    scale: 0.0,
+                    model: empty_ptr.as_ptr(),
+                    scale: 1.0,
                 },
-                max_active_paths: 0,
+                max_active_paths: 4,
                 model_config,
-                rule_fars: mem::zeroed::<_>(),
-                rule_fsts: mem::zeroed::<_>(),
+                rule_fars: empty_ptr.as_ptr(),
+                rule_fsts: empty_ptr.as_ptr(),
                 blank_penalty: 0.0,
-                hr: mem::zeroed::<_>(),
+                hr: sherpa_rs_sys::SherpaOnnxHomophoneReplacerConfig {
+                    dict_dir: empty_ptr.as_ptr(),
+                    lexicon: empty_ptr.as_ptr(),
+                    rule_fsts: empty_ptr.as_ptr(),
+                },
             }
         };
 

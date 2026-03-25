@@ -1,4 +1,4 @@
-use std::{mem, ptr::null};
+use std::ptr::null;
 
 use crate::{utils::cstring_from_str, OnnxConfig};
 use eyre::Result;
@@ -33,13 +33,48 @@ impl KittenTts {
 
             let tts_config = config.common_config.to_raw();
 
-            let model_config = sherpa_rs_sys::SherpaOnnxOfflineTtsModelConfig {
-                vits: mem::zeroed::<_>(),
+            // 使用默认函数来初始化结构体避免遗漏字段
+            let empty = cstring_from_str("");
+            let mut model_config = sherpa_rs_sys::SherpaOnnxOfflineTtsModelConfig {
+                vits: sherpa_rs_sys::SherpaOnnxOfflineTtsVitsModelConfig {
+                    model: empty.as_ptr(),
+                    lexicon: empty.as_ptr(),
+                    tokens: empty.as_ptr(),
+                    data_dir: empty.as_ptr(),
+                    noise_scale: 0.0,
+                    noise_scale_w: 0.0,
+                    length_scale: 0.0,
+                    speakers: empty.as_ptr(),
+                    speaker_id: 0,
+                    lang: empty.as_ptr(),
+                    rule_fsts: empty.as_ptr(),
+                    rule_fars: empty.as_ptr(),
+                    acoustic_model:
+                        sherpa_rs_sys::SherpaOnnxOfflineTtsVitsModelAcousticModelConfig {
+                            model: empty.as_ptr(),
+                            tokens: empty.as_ptr(),
+                            lexicon: empty.as_ptr(),
+                            data_dir: empty.as_ptr(),
+                        },
+                },
                 num_threads: config.onnx_config.num_threads,
                 debug: config.onnx_config.debug.into(),
                 provider: provider.as_ptr(),
-                matcha: mem::zeroed::<_>(),
-                kokoro: mem::zeroed(),
+                matcha: sherpa_rs_sys::SherpaOnnxOfflineTtsMatchaModelConfig {
+                    model: empty.as_ptr(),
+                    tokens: empty.as_ptr(),
+                    lexicon: empty.as_ptr(),
+                    data_dir: empty.as_ptr(),
+                    lang: empty.as_ptr(),
+                    speakers: empty.as_ptr(),
+                },
+                kokoro: sherpa_rs_sys::SherpaOnnxOfflineTtsKokoroModelConfig {
+                    model: empty.as_ptr(),
+                    tokens: empty.as_ptr(),
+                    lexicon: empty.as_ptr(),
+                    data_dir: empty.as_ptr(),
+                    speakers: empty.as_ptr(),
+                },
                 kitten: sherpa_rs_sys::SherpaOnnxOfflineTtsKittenModelConfig {
                     model: model.as_ptr(),
                     voices: voices.as_ptr(),
@@ -47,8 +82,41 @@ impl KittenTts {
                     data_dir: data_dir.as_ptr(),
                     length_scale: config.length_scale,
                 },
-                zipvoice: mem::zeroed::<_>(),
+                zipvoice: sherpa_rs_sys::SherpaOnnxOfflineTtsZipVoiceModelConfig {
+                    model: empty.as_ptr(),
+                    tokens: empty.as_ptr(),
+                    lexicon: empty.as_ptr(),
+                    data_dir: empty.as_ptr(),
+                    speakers: empty.as_ptr(),
+                },
+                pocket: sherpa_rs_sys::SherpaOnnxOfflineTtsPocketModelConfig {
+                    model: empty.as_ptr(),
+                    tokens: empty.as_ptr(),
+                    language: empty.as_ptr(),
+                    normalize_g2p: 0,
+                    normalize_numbers: 0,
+                    normalize_romanization: 0,
+                    normalize_spellout: 0,
+                    normalize_date_time: 0,
+                    normalize_measure: 0,
+                    normalize_ordinal: 0,
+                    normalize_fraction: 0,
+                },
+                supertonic: sherpa_rs_sys::SherpaOnnxOfflineTtsSupertonicModelConfig {
+                    acoustic_model: empty.as_ptr(),
+                    flow_model: empty.as_ptr(),
+                    vocoder: empty.as_ptr(),
+                    data_dir: empty.as_ptr(),
+                    language: empty.as_ptr(),
+                    lexicon: empty.as_ptr(),
+                    onnx_acoustic_model: empty.as_ptr(),
+                    onnx_flow_model: empty.as_ptr(),
+                    onnx_vocoder: empty.as_ptr(),
+                    onnx_pre_aligner: empty.as_ptr(),
+                    onnx_text_encoder: empty.as_ptr(),
+                },
             };
+
             let config = sherpa_rs_sys::SherpaOnnxOfflineTtsConfig {
                 max_num_sentences: config.common_config.max_num_sentences,
                 model: model_config,

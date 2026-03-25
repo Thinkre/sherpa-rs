@@ -1,4 +1,4 @@
-use crate::{get_default_provider, utils::cstring_from_str};
+use crate::{get_default_provider, safe_default_offline_model_config, utils::cstring_from_str};
 use eyre::{bail, Result};
 use std::mem;
 
@@ -58,39 +58,21 @@ impl WhisperRecognizer {
         let tokens_ptr = cstring_from_str(&config.tokens);
         let decoding_method_ptr = cstring_from_str("greedy_search");
 
-        let whisper_config = sherpa_rs_sys::SherpaOnnxOfflineWhisperModelConfig {
+        let empty_ptr = cstring_from_str("");
+        let mut model_config = unsafe { safe_default_offline_model_config(empty_ptr.as_ptr()) };
+
+        model_config.whisper = sherpa_rs_sys::SherpaOnnxOfflineWhisperModelConfig {
             decoder: decoder_ptr.as_ptr(),
             encoder: encoder_ptr.as_ptr(),
             language: language_ptr.as_ptr(),
             task: task_ptr.as_ptr(),
             tail_paddings,
         };
-        let model_config = unsafe {
-            sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
-                whisper: whisper_config,
-                debug,
-                num_threads,
-                provider: provider_ptr.as_ptr(),
-                bpe_vocab: bpe_vocab_ptr.as_ptr(),
-                tokens: tokens_ptr.as_ptr(),
-
-                // nulls
-                model_type: std::ptr::null(),
-                modeling_unit: mem::zeroed::<_>(),
-                nemo_ctc: mem::zeroed::<_>(),
-                paraformer: mem::zeroed::<_>(),
-                tdnn: mem::zeroed::<_>(),
-                telespeech_ctc: mem::zeroed::<_>(),
-                transducer: mem::zeroed::<_>(),
-                fire_red_asr: mem::zeroed::<_>(),
-                sense_voice: mem::zeroed::<_>(),
-                moonshine: mem::zeroed::<_>(),
-                dolphin: mem::zeroed::<_>(),
-                zipformer_ctc: mem::zeroed::<_>(),
-                canary: mem::zeroed::<_>(),
-                wenet_ctc: mem::zeroed::<_>(),
-            }
-        };
+        model_config.debug = debug;
+        model_config.num_threads = num_threads;
+        model_config.provider = provider_ptr.as_ptr();
+        model_config.bpe_vocab = bpe_vocab_ptr.as_ptr();
+        model_config.tokens = tokens_ptr.as_ptr();
 
         let config = unsafe {
             sherpa_rs_sys::SherpaOnnxOfflineRecognizerConfig {
@@ -101,14 +83,21 @@ impl WhisperRecognizer {
                 },
                 model_config,
 
-                hotwords_file: mem::zeroed::<_>(),
-                hotwords_score: mem::zeroed::<_>(),
-                lm_config: mem::zeroed::<_>(),
-                max_active_paths: mem::zeroed::<_>(),
-                rule_fars: mem::zeroed::<_>(),
-                rule_fsts: mem::zeroed::<_>(),
-                blank_penalty: mem::zeroed::<_>(),
-                hr: mem::zeroed::<_>(),
+                hotwords_file: empty_ptr.as_ptr(),
+                hotwords_score: 0.0,
+                lm_config: sherpa_rs_sys::SherpaOnnxOfflineLMConfig {
+                    model: empty_ptr.as_ptr(),
+                    scale: 1.0,
+                },
+                max_active_paths: 4,
+                rule_fars: empty_ptr.as_ptr(),
+                rule_fsts: empty_ptr.as_ptr(),
+                blank_penalty: 0.0,
+                hr: sherpa_rs_sys::SherpaOnnxHomophoneReplacerConfig {
+                    dict_dir: empty_ptr.as_ptr(),
+                    lexicon: empty_ptr.as_ptr(),
+                    rule_fsts: empty_ptr.as_ptr(),
+                },
             }
         };
         let recognizer = unsafe { sherpa_rs_sys::SherpaOnnxCreateOfflineRecognizer(&config) };
