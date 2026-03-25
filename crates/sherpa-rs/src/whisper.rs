@@ -67,6 +67,8 @@ impl WhisperRecognizer {
             language: language_ptr.as_ptr(),
             task: task_ptr.as_ptr(),
             tail_paddings,
+            enable_token_timestamps: 0,
+            enable_segment_timestamps: 0,
         };
         model_config.debug = debug;
         model_config.num_threads = num_threads;

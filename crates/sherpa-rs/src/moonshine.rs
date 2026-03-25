@@ -67,6 +67,7 @@ impl MoonshineRecognizer {
             encoder: encoder_ptr.as_ptr(),
             uncached_decoder: uncached_decoder_ptr.as_ptr(),
             cached_decoder: cached_decoder_ptr.as_ptr(),
+            merged_decoder: empty_ptr.as_ptr(),
         };
         model_config.tokens = tokens_ptr.as_ptr();
 
