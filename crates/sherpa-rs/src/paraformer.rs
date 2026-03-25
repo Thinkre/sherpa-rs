@@ -170,22 +170,13 @@ impl ParaformerRecognizer {
         let decoding_method_cstr = cstring_from_str("greedy_search");
         let empty_cstr = cstring_from_str("");
 
-<<<<<<< HEAD
+
         let model_eb_cstr = config.model_eb.as_ref()
             .map(|s| CString::new(s.clone()))
             .transpose()?;
 
         let hotwords_file_cstr = config.hotwords_file.as_ref()
             .map(|s| cstring_from_str(s));
-=======
-        let model_eb_cstr = config
-            .model_eb
-            .as_ref()
-            .map(|s| CString::new(s.clone()))
-            .transpose()?;
-
-        let hotwords_file_cstr = config.hotwords_file.as_ref().map(|s| cstring_from_str(s));
->>>>>>> 19dabecc69d626c196646c299304875246b97fd4
 
         let mut model_config = crate::safe_default_offline_model_config(empty_cstr.as_ptr());
         model_config.debug = debug;
